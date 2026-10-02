@@ -23,7 +23,7 @@
         <Description>Avalonia / FluentAvalonia 风格的 Markdown 渲染组件，支持标题、列表、引用、代码高亮、图片、内联 HTML、GitHub 风格警告框（Alert）以及 GFM 表格。</Description>
         <PackageProjectUrl>https://github.com/RYCBStudio/FluentAvalonia.MarkdownRender</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/RYCBStudio/FluentAvalonia.MarkdownRender</RepositoryUrl>
+        <RepositoryUrl>https://github.com/RYCBStudio/FluentAvalonia.MarkdownRenderer</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <PackageTags>Avalonia;FluentAvalonia;Markdown;MarkdownRender;Markdig;Table;Alert;CodeHighlight</PackageTags>
