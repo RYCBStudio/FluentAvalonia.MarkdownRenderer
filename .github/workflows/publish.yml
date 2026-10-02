@@ -74,16 +74,22 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "$GITHUB_REF_NAME" ./artifacts/* --repo "$GITHUB_REPOSITORY" --generate-notes --title "$GITHUB_REF_NAME"
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME 已存在，跳过创建"
+          else
+            gh release create "$GITHUB_REF_NAME" ./artifacts/* --repo "$GITHUB_REPOSITORY" --generate-notes --title "$GITHUB_REF_NAME"
+          fi
 
   publish-nuget-org:
-    name: push to nuget.org
+    name: push to nuget.org (trusted publishing)
     needs: build
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
-    env:
-      # job 级 if 不支持 secrets 上下文，故在此取值供 step 级判断使用
-      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+    permissions:
+      # OIDC：nuget.org 受信发布（Trusted Publishing）用它交换短期 API key
+      id-token: write
+      contents: read
     steps:
       - uses: actions/setup-dotnet@v4
         with:
@@ -94,7 +100,13 @@ jobs:
           name: nupkg
           path: ./artifacts
 
+      - name: NuGet login (OIDC)
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: RYCBStudio
+
       - name: Push
-        # 未配置 NUGET_API_KEY 时自动跳过，不会让工作流失败
-        if: env.NUGET_API_KEY != ''
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
         run: dotnet nuget push "./artifacts/*.nupkg" --source "$NUGET_SOURCE_NUGETORG" --api-key "$NUGET_API_KEY" --skip-duplicate

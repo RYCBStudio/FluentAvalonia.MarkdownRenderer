@@ -117,7 +117,7 @@ dotnet build -c Release
 dotnet pack -c Release -o ./artifacts
 ```
 
-发布由 GitHub Actions 驱动：推送 `v*` 标签后自动打包，并推送到 GitHub Packages 与 nuget.org（后者需要仓库 Secrets 中的 `NUGET_API_KEY`）。
+发布由 GitHub Actions 驱动：推送 `v*` 标签后自动打包，并推送到 GitHub Packages 与 nuget.org。nuget.org 走[受信发布（Trusted Publishing / OIDC）](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing)，由 `NuGet/login` 用 OIDC 换取短期 API key，无需在仓库里配置任何 Secret。
 
 ## 许可与致谢
 
