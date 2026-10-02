@@ -1,0 +1,20 @@
+## .NET 构建产物
+[Bb]in/
+[Oo]bj/
+artifacts/
+
+## Rider / VS / VS Code
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+
+## 系统
+.DS_Store
+Thumbs.db
