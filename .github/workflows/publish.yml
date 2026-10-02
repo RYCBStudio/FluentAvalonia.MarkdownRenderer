@@ -79,9 +79,11 @@ jobs:
   publish-nuget-org:
     name: push to nuget.org
     needs: build
-    # 未配置 NUGET_API_KEY 时自动跳过，不会让工作流失败
-    if: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.NUGET_API_KEY != '' }}
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    env:
+      # job 级 if 不支持 secrets 上下文，故在此取值供 step 级判断使用
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
     steps:
       - uses: actions/setup-dotnet@v4
         with:
@@ -93,4 +95,6 @@ jobs:
           path: ./artifacts
 
       - name: Push
-        run: dotnet nuget push "./artifacts/*.nupkg" --source "$NUGET_SOURCE_NUGETORG" --api-key "${{ secrets.NUGET_API_KEY }}" --skip-duplicate
+        # 未配置 NUGET_API_KEY 时自动跳过，不会让工作流失败
+        if: env.NUGET_API_KEY != ''
+        run: dotnet nuget push "./artifacts/*.nupkg" --source "$NUGET_SOURCE_NUGETORG" --api-key "$NUGET_API_KEY" --skip-duplicate
