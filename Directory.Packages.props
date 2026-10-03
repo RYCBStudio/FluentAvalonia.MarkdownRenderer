@@ -9,38 +9,34 @@
       故 SkiaSharp 全系统一到 4.151.2，同时满足 Avalonia.Skia 12.1.3 的下界（>= 3.119.4）。
 -->
 <Project>
-    <PropertyGroup>
-        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-        <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
-    </PropertyGroup>
-
-    <!-- ===== Avalonia 核心 ===== -->
-    <ItemGroup>
-        <PackageVersion Include="Avalonia" Version="12.1.3" />
-        <PackageVersion Include="Avalonia.Skia" Version="12.1.3" />
-    </ItemGroup>
-
-    <!-- ===== Avalonia 生态 ===== -->
-    <ItemGroup>
-        <PackageVersion Include="Avalonia.AvaloniaEdit" Version="12.0.0" />
-        <PackageVersion Include="AvaloniaEdit.TextMate" Version="12.0.0" />
-        <!-- 命名空间为 Avalonia.Svg.Skia；12.0.0.17 与 Avalonia 12 + SkiaSharp 4.x 协同已实测 -->
-        <PackageVersion Include="Svg.Controls.Skia.Avalonia" Version="12.0.0.17" />
-        <!-- 主题字典使用 FluentAvalonia 的资源键（如 AccentTextFillColorPrimaryBrush），为硬依赖 -->
-        <PackageVersion Include="FluentAvaloniaUI" Version="3.1.0" />
-    </ItemGroup>
-
-    <!-- ===== Skia / 图形 ===== -->
-    <ItemGroup>
-        <PackageVersion Include="SkiaSharp" Version="4.151.2" />
-        <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="4.151.2" />
-        <PackageVersion Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="4.151.2" />
-    </ItemGroup>
-
-    <!-- ===== 文本 / Markdown / 语法高亮 ===== -->
-    <ItemGroup>
-        <PackageVersion Include="Markdig" Version="1.4.0" />
-        <PackageVersion Include="TextMateSharp" Version="2.0.4" />
-        <PackageVersion Include="TextMateSharp.Grammars" Version="2.0.4" />
-    </ItemGroup>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <!-- ===== Avalonia 核心 ===== -->
+  <ItemGroup>
+    <PackageVersion Include="Avalonia" Version="12.1.3" />
+    <PackageVersion Include="Avalonia.Skia" Version="12.1.3" />
+  </ItemGroup>
+  <!-- ===== Avalonia 生态 ===== -->
+  <ItemGroup>
+    <PackageVersion Include="Avalonia.AvaloniaEdit" Version="12.0.0" />
+    <PackageVersion Include="AvaloniaEdit.TextMate" Version="12.0.0" />
+    <!-- 命名空间为 Avalonia.Svg.Skia；12.0.0.17 与 Avalonia 12 + SkiaSharp 4.x 协同已实测 -->
+    <PackageVersion Include="Svg.Controls.Skia.Avalonia" Version="12.0.0.17" />
+    <!-- 主题字典使用 FluentAvalonia 的资源键（如 AccentTextFillColorPrimaryBrush），为硬依赖 -->
+    <PackageVersion Include="FluentAvaloniaUI" Version="3.1.0" />
+  </ItemGroup>
+  <!-- ===== Skia / 图形 ===== -->
+  <ItemGroup>
+    <PackageVersion Include="SkiaSharp" Version="4.153.1" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="4.153.1" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="4.153.1" />
+  </ItemGroup>
+  <!-- ===== 文本 / Markdown / 语法高亮 ===== -->
+  <ItemGroup>
+    <PackageVersion Include="Markdig" Version="1.4.0" />
+    <PackageVersion Include="TextMateSharp" Version="2.0.4" />
+    <PackageVersion Include="TextMateSharp.Grammars" Version="2.0.4" />
+  </ItemGroup>
 </Project>
