@@ -710,7 +710,7 @@ public static partial class HtmlBlockRenderer
                     break;
 
                 case "font-style":
-                    span.FontStyle = propertyValue.ToLower() == "italic" ? FontStyle.Italic : FontStyle.Normal;
+                    span.FontStyle = propertyValue.Equals("italic", StringComparison.CurrentCultureIgnoreCase) ? FontStyle.Italic : FontStyle.Normal;
                     break;
 
                 case "text-decoration":
