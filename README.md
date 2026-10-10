@@ -19,6 +19,7 @@ MarkdownRenderX.Avalonia/         无 FluentAvalonia 依赖版（自绘 Alert、
 assets/                           包图标源文件（SVG）
 Directory.Packages.props          中央包版本管理（CPM）
 .github/workflows/publish.yml     发布流水线（打 tag 自动发双包）
+tools/MrxSmoke/                   无头回归探针（自绘 Alert 与主题资源键）
 ```
 
 ## 构建与打包
@@ -27,6 +28,14 @@ Directory.Packages.props          中央包版本管理（CPM）
 dotnet pack FluentAvalonia.MarkdownRender/FluentAvalonia.MarkdownRender.csproj -c Release -o ./artifacts
 dotnet pack MarkdownRenderX.Avalonia/MarkdownRenderX.Avalonia.csproj -c Release -o ./artifacts
 ```
+
+## 回归验证
+
+```bash
+dotnet run --project tools/MrxSmoke -c Release
+```
+
+无头（Headless）加载组件样式字典并断言：样式可加载、自绘 Alert 的 ControlTheme 与各类型配色正确、Markdown 解析可产出控件、链接强调色资源键可解析。修改 `MarkdownRenderX.Avalonia` 的主题或 Alert 实现后建议跑一次。
 
 ## 发布
 

@@ -1,0 +1,9 @@
+<!--
+  探针工程不使用中央包版本管理：顶层仓库的 CPM 会向上生效，
+  这里就近声明关闭，避免与本工程中显式的 PackageReference Version 冲突（NU1008）。
+-->
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+</Project>
