@@ -13,7 +13,8 @@ env:
   DOTNET_NOLOGO: true
   NUGET_SOURCE_GITHUB: https://nuget.pkg.github.com/RYCBStudio/index.json
   NUGET_SOURCE_NUGETORG: https://api.nuget.org/v3/index.json
-  PROJECT: FluentAvalonia.MarkdownRender.csproj
+  PROJECT_FAMR: FluentAvalonia.MarkdownRender/FluentAvalonia.MarkdownRender.csproj
+  PROJECT_MRX: MarkdownRenderX.Avalonia/MarkdownRenderX.Avalonia.csproj
 
 jobs:
   build:
@@ -27,10 +28,14 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Restore
-        run: dotnet restore "$PROJECT"
+        run: |
+          dotnet restore "$PROJECT_FAMR"
+          dotnet restore "$PROJECT_MRX"
 
       - name: Build
-        run: dotnet build "$PROJECT" -c Release --no-restore
+        run: |
+          dotnet build "$PROJECT_FAMR" -c Release --no-restore
+          dotnet build "$PROJECT_MRX" -c Release --no-restore
 
       - name: Resolve package version
         id: ver
@@ -38,12 +43,17 @@ jobs:
           if [[ "$GITHUB_REF" == refs/tags/* ]]; then
             V="${GITHUB_REF_NAME#v}"
           else
-            V="$(grep -oPm1 '(?<=<Version>)[^<]+' "$PROJECT")"
+            V="$(grep -oPm1 '(?<=<Version>)[^<]+' "$PROJECT_FAMR")"
           fi
           echo "version=$V" >> "$GITHUB_OUTPUT"
 
       - name: Pack
-        run: dotnet pack "$PROJECT" -c Release --no-build -o ./artifacts -p:Version="${{ steps.ver.outputs.version }}"
+        run: |
+          dotnet pack "$PROJECT_FAMR" -c Release --no-build -o ./artifacts -p:Version="${{ steps.ver.outputs.version }}"
+          dotnet pack "$PROJECT_MRX" -c Release --no-build -o ./artifacts -p:Version="${{ steps.ver.outputs.version }}"
+
+      - name: List artifacts
+        run: ls -l ./artifacts
 
       - uses: actions/upload-artifact@v4
         with:

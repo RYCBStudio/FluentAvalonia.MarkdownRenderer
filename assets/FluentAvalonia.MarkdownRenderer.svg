@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <defs>
+    <linearGradient id="card" x1="300" y1="300" x2="760" y2="850" gradientUnits="userSpaceOnUse"><stop stop-color="#263F65"/><stop offset="1" stop-color="#101D38"/></linearGradient>
+    <linearGradient id="fluent" x1="150" y1="180" x2="510" y2="530" gradientUnits="userSpaceOnUse"><stop stop-color="#37D8F5"/><stop offset=".48" stop-color="#1689F4"/><stop offset="1" stop-color="#2350D8"/></linearGradient>
+    <linearGradient id="ava" x1="635" y1="180" x2="890" y2="530" gradientUnits="userSpaceOnUse"><stop stop-color="#9B8CFF"/><stop offset="1" stop-color="#6337D5"/></linearGradient>
+    <filter id="shadow" x="90" y="95" width="850" height="850" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <!-- soft shadow; all surrounding canvas remains transparent -->
+  <path d="M300 290H700L815 405V770Q815 830 755 830H310Q250 830 250 770V340Q250 290 300 290Z" fill="#101D38" opacity=".18" filter="url(#shadow)"/>
+  <!-- Avalonia-inspired ring -->
+  <path d="M650 145C786 145 895 254 895 390S786 635 650 635 405 526 405 390 514 145 650 145Z" fill="url(#ava)"/>
+  <path d="M650 245C730 245 795 310 795 390S730 535 650 535 505 470 505 390 570 245 650 245Z" fill="#F4F7FF"/>
+  <path d="M650 310C694 310 730 346 730 390S694 470 650 470 570 434 570 390 606 310 650 310Z" fill="#30245D"/>
+  <!-- Markdown document -->
+  <path d="M290 300H640L770 430V765Q770 815 720 815H300Q250 815 250 765V340Q250 300 290 300Z" fill="url(#card)" stroke="#5A7FB4" stroke-width="8"/>
+  <path d="M640 300V395Q640 430 675 430H770" fill="#7CBFFF" opacity=".9"/>
+  <!-- Fluent Design layered ribbons -->
+  <path d="M185 205H450Q486 205 465 236L330 420Q317 438 293 438H130Q101 438 119 412L255 229Q267 205 292 205Z" fill="url(#fluent)"/>
+  <path d="M125 405H291Q315 405 299 428L210 550Q194 573 171 553L103 487Q83 466 103 438Z" fill="#42B8F4"/>
+  <path d="M190 405H452Q475 405 460 427L383 532Q369 551 346 532L190 405Z" fill="#1769DE" opacity=".9"/>
+  <!-- Markdown mark -->
+  <path d="M330 485V620H365V540L410 594L455 540V620H490V485H450L410 535L370 485H330Z" fill="#F4F8FF"/>
+  <path d="M545 485V565H515L565 620L615 565H585V485H545Z" fill="#F4F8FF"/>
+  <!-- content lines -->
+  <rect x="325" y="665" width="335" height="22" rx="11" fill="#8CA8D9"/>
+  <rect x="325" y="715" width="285" height="22" rx="11" fill="#8CA8D9"/>
+  <rect x="325" y="765" width="190" height="22" rx="11" fill="#8CA8D9"/>
+</svg>

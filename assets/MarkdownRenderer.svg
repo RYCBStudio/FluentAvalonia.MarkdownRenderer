@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="orbit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#28C7F7"/>
+      <stop offset="0.48" stop-color="#367DF6"/>
+      <stop offset="1" stop-color="#8A45F5"/>
+    </linearGradient>
+    <linearGradient id="page" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#263F79"/>
+      <stop offset="0.55" stop-color="#142B5B"/>
+      <stop offset="1" stop-color="#0B1D43"/>
+    </linearGradient>
+    <linearGradient id="fold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A8E8FF"/>
+      <stop offset="1" stop-color="#6C9EFF"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#CBE8FF"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9BAEFF"/>
+      <stop offset="1" stop-color="#5F86E9"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="18" stdDeviation="19" flood-color="#07152F" flood-opacity="0.28"/>
+    </filter>
+    <filter id="orbitShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="11" flood-color="#5145D9" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <!-- A single orbital ribbon replaces the Fluent-specific layered ribbons. -->
+  <g filter="url(#orbitShadow)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 265 784 C 145 730 113 570 168 410 C 224 247 356 157 519 157 C 690 157 821 264 853 421 C 883 567 811 711 691 782"
+          stroke="url(#orbit)" stroke-width="62"/>
+    <path d="M 255 279 C 337 204 441 175 548 188 C 673 203 766 277 807 381"
+          stroke="#A8E8FF" stroke-width="7" opacity="0.5"/>
+  </g>
+
+  <!-- Markdown document -->
+  <g filter="url(#shadow)">
+    <path d="M 303 238 H 594 L 730 373 V 783 Q 730 824 689 824 H 303 Q 260 824 260 781 V 282 Q 260 238 303 238 Z"
+          fill="url(#page)" stroke="#6D9CF8" stroke-opacity="0.38" stroke-width="5"/>
+    <path d="M 594 238 V 337 Q 594 373 630 373 H 730 Z" fill="url(#fold)"/>
+    <path d="M 594 238 V 337 Q 594 373 630 373 H 730" fill="none" stroke="#D8F4FF" stroke-width="5" stroke-linejoin="round" opacity="0.78"/>
+    <path d="M 294 269 H 576" stroke="#8FCBFF" stroke-width="4" stroke-linecap="round" opacity="0.25"/>
+
+    <!-- Custom geometric M and downward arrow: Markdown + rendering. -->
+    <path d="M 354 526 V 433 Q 354 423 365 423 H 384 Q 392 423 398 430 L 443 482 L 487 430 Q 493 423 502 423 H 519 Q 530 423 530 434 V 526 Q 530 538 518 538 H 511 Q 499 538 499 526 V 467 L 453 521 Q 448 527 443 521 L 385 461 V 526 Q 385 538 374 538 H 365 Q 354 538 354 526 Z" fill="url(#mark)"/>
+    <path d="M 570 429 Q 570 420 580 420 H 595 Q 605 420 605 430 V 484 H 626 Q 635 484 629 492 L 596 531 Q 589 539 582 531 L 548 492 Q 542 484 552 484 H 570 Z" fill="url(#mark)"/>
+
+    <!-- Markdown content lines -->
+    <rect x="340" y="596" width="338" height="22" rx="11" fill="url(#line)"/>
+    <rect x="340" y="642" width="287" height="22" rx="11" fill="url(#line)" opacity="0.9"/>
+    <rect x="340" y="688" width="204" height="22" rx="11" fill="url(#line)" opacity="0.78"/>
+  </g>
+</svg>

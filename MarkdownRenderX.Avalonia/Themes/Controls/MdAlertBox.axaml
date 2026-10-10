@@ -1,0 +1,98 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mrx="clr-namespace:MarkdownRenderX.Avalonia.Controls.MarkdownRender">
+
+    <!--
+        GitHub 风格警告框（Alert）的自绘主题。
+        这里不引用任何第三方控件库的资源，全部颜色由本文件自带，随明暗主题变体切换。
+    -->
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="MdAlertBodyBrush" Color="#1C1F23" />
+            <SolidColorBrush x:Key="MdAlertTipAccentBrush" Color="#0F7B0F" />
+            <SolidColorBrush x:Key="MdAlertTipBackgroundBrush" Color="#F1FAF1" />
+            <SolidColorBrush x:Key="MdAlertNoteAccentBrush" Color="#0F6CBD" />
+            <SolidColorBrush x:Key="MdAlertNoteBackgroundBrush" Color="#F1F6FC" />
+            <SolidColorBrush x:Key="MdAlertWarningAccentBrush" Color="#9D5D00" />
+            <SolidColorBrush x:Key="MdAlertWarningBackgroundBrush" Color="#FDF5EC" />
+            <SolidColorBrush x:Key="MdAlertImportantAccentBrush" Color="#8250DF" />
+            <SolidColorBrush x:Key="MdAlertImportantBackgroundBrush" Color="#F7F3FD" />
+            <SolidColorBrush x:Key="MdAlertCautionAccentBrush" Color="#C42B1C" />
+            <SolidColorBrush x:Key="MdAlertCautionBackgroundBrush" Color="#FDF3F2" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="MdAlertBodyBrush" Color="#F9F9F9" />
+            <SolidColorBrush x:Key="MdAlertTipAccentBrush" Color="#6CCB5F" />
+            <SolidColorBrush x:Key="MdAlertTipBackgroundBrush" Color="#12290F" />
+            <SolidColorBrush x:Key="MdAlertNoteAccentBrush" Color="#60CDFF" />
+            <SolidColorBrush x:Key="MdAlertNoteBackgroundBrush" Color="#102B3D" />
+            <SolidColorBrush x:Key="MdAlertWarningAccentBrush" Color="#FCE100" />
+            <SolidColorBrush x:Key="MdAlertWarningBackgroundBrush" Color="#382B04" />
+            <SolidColorBrush x:Key="MdAlertImportantAccentBrush" Color="#A371F7" />
+            <SolidColorBrush x:Key="MdAlertImportantBackgroundBrush" Color="#2A1F3D" />
+            <SolidColorBrush x:Key="MdAlertCautionAccentBrush" Color="#FF99A4" />
+            <SolidColorBrush x:Key="MdAlertCautionBackgroundBrush" Color="#3F1B18" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <ControlTheme x:Key="{x:Type mrx:MdAlertBox}" TargetType="mrx:MdAlertBox">
+        <!-- 默认（note / 未识别类型） -->
+        <Setter Property="Background" Value="{DynamicResource MdAlertNoteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MdAlertNoteAccentBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="Margin" Value="0,5,0,5" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Text="{TemplateBinding Glyph}"
+                                   FontSize="14"
+                                   Foreground="{TemplateBinding BorderBrush}"
+                                   Margin="0,0,8,0"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="1"
+                                   Text="{TemplateBinding Title}"
+                                   FontWeight="SemiBold"
+                                   Foreground="{TemplateBinding BorderBrush}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="1" Grid.Column="1"
+                                   Text="{TemplateBinding Message}"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource MdAlertBodyBrush}"
+                                   Margin="0,4,0,0" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- 各 severity 的配色变体（^ 指向控件自身） -->
+        <Style Selector="^[Kind=tip]">
+            <Setter Property="BorderBrush" Value="{DynamicResource MdAlertTipAccentBrush}" />
+            <Setter Property="Background" Value="{DynamicResource MdAlertTipBackgroundBrush}" />
+        </Style>
+        <Style Selector="^[Kind=note]">
+            <Setter Property="BorderBrush" Value="{DynamicResource MdAlertNoteAccentBrush}" />
+            <Setter Property="Background" Value="{DynamicResource MdAlertNoteBackgroundBrush}" />
+        </Style>
+        <Style Selector="^[Kind=warning]">
+            <Setter Property="BorderBrush" Value="{DynamicResource MdAlertWarningAccentBrush}" />
+            <Setter Property="Background" Value="{DynamicResource MdAlertWarningBackgroundBrush}" />
+        </Style>
+        <Style Selector="^[Kind=important]">
+            <Setter Property="BorderBrush" Value="{DynamicResource MdAlertImportantAccentBrush}" />
+            <Setter Property="Background" Value="{DynamicResource MdAlertImportantBackgroundBrush}" />
+        </Style>
+        <Style Selector="^[Kind=caution]">
+            <Setter Property="BorderBrush" Value="{DynamicResource MdAlertCautionAccentBrush}" />
+            <Setter Property="Background" Value="{DynamicResource MdAlertCautionBackgroundBrush}" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>
