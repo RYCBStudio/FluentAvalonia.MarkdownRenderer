@@ -69,11 +69,6 @@ jobs:
       packages: write
       contents: write
     steps:
-      # 需要 checkout 才能读取 tag annotation 作为 Release 说明
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
@@ -90,9 +85,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          NOTES="$(git tag -l --format='%(contents:subject)%n%n%(contents:body)' "$GITHUB_REF_NAME")"
+          # Release 说明取自 GitHub 上 tag annotation 的 message（annotated tag 才有）
+          REF="repos/$GITHUB_REPOSITORY/git/ref/tags/$GITHUB_REF_NAME"
+          OBJ_TYPE="$(gh api "$REF" --jq '.object.type')"
+          OBJ_SHA="$(gh api "$REF" --jq '.object.sha')"
+          if [ "$OBJ_TYPE" = "tag" ]; then
+            NOTES="$(gh api "repos/$GITHUB_REPOSITORY/git/tags/$OBJ_SHA" --jq '.message')"
+          else
+            NOTES="$(gh api "repos/$GITHUB_REPOSITORY/commits/$OBJ_SHA" --jq '.commit.message')"
+          fi
           if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo "Release $GITHUB_REF_NAME already exists, skipped"
+            echo "Release $GITHUB_REF_NAME already exists, updating notes"
+            gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --notes "$NOTES"
           else
             gh release create "$GITHUB_REF_NAME" ./artifacts/* --repo "$GITHUB_REPOSITORY" --title "MarkdownRenderer $GITHUB_REF_NAME" --notes "$NOTES"
           fi
