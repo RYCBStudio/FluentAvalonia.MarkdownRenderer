@@ -94,16 +94,13 @@ jobs:
           else
             NOTES="$(gh api "repos/$GITHUB_REPOSITORY/commits/$OBJ_SHA" --jq '.commit.message')"
           fi
-          CURRENT="$(gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --json tagName --jq '.tagName' 2>/dev/null || true)"
-          if [ "$CURRENT" = "$GITHUB_REF_NAME" ]; then
+          # 用 REST 按 tag 精确探测：gh release view 会命中"逻辑 tag 名相同但已 untagged"的残留 Release
+          if gh api "repos/$GITHUB_REPOSITORY/releases/tags/$GITHUB_REF_NAME" >/dev/null 2>&1; then
             echo "Release $GITHUB_REF_NAME exists, updating notes"
             gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "MarkdownRenderer $GITHUB_REF_NAME" --notes "$NOTES"
           else
-            if [ -n "$CURRENT" ]; then
-              # tag 被删除后重推时，原 Release 会变成 untagged（tag_name=untagged-xxx），需删除重建才能恢复绑定
-              echo "Release is untagged ($CURRENT), recreating"
-              gh release delete "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag=false
-            fi
+            # 没有有效绑定的 Release（tag 删除重推后会残留 untagged 状态），先清理再重建
+            gh release delete "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag=false 2>/dev/null || true
             gh release create "$GITHUB_REF_NAME" ./artifacts/* --repo "$GITHUB_REPOSITORY" --title "MarkdownRenderer $GITHUB_REF_NAME" --notes "$NOTES"
           fi
 
