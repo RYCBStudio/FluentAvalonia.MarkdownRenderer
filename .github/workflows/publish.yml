@@ -95,8 +95,9 @@ jobs:
             NOTES="$(gh api "repos/$GITHUB_REPOSITORY/commits/$OBJ_SHA" --jq '.commit.message')"
           fi
           if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo "Release $GITHUB_REF_NAME already exists, updating notes"
-            gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --notes "$NOTES"
+            echo "Release $GITHUB_REF_NAME already exists, updating notes and tag binding"
+            # --tag 用于修复 tag 被删除重推后变成 untagged 的 Release
+            gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --tag "$GITHUB_REF_NAME" --title "MarkdownRenderer $GITHUB_REF_NAME" --notes "$NOTES"
           else
             gh release create "$GITHUB_REF_NAME" ./artifacts/* --repo "$GITHUB_REPOSITORY" --title "MarkdownRenderer $GITHUB_REF_NAME" --notes "$NOTES"
           fi
