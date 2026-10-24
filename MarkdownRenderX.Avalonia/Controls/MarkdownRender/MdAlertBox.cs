@@ -78,7 +78,7 @@ public class MdAlertBox : TemplatedControl
             "tip" => MdStrings.AlertTip,
             "note" => MdStrings.AlertNote,
             "warning" => MdStrings.AlertWarning,
-            "important" => MdStrings.AlertCaution,
+            "important" => MdStrings.AlertImportant,
             "caution" => MdStrings.AlertCaution,
             _ => MdStrings.AlertInfo
         };

@@ -254,6 +254,7 @@ public static partial class HtmlBlockRenderer
             "tip" => MdStrings.AlertTip,
             "note" => MdStrings.AlertNote,
             "warning" => MdStrings.AlertWarning,
+            "important" => MdStrings.AlertImportant,
             "caution" => MdStrings.AlertCaution,
             _ => MdStrings.AlertInfo
         };

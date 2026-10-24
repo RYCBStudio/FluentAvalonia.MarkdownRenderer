@@ -69,6 +69,11 @@ jobs:
       packages: write
       contents: write
     steps:
+      # 需要 checkout 才能读取 tag annotation 作为 Release 说明
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
@@ -85,10 +90,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          NOTES="$(git tag -l --format='%(contents:subject)%n%n%(contents:body)' "$GITHUB_REF_NAME")"
           if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo "Release $GITHUB_REF_NAME 已存在，跳过创建"
+            echo "Release $GITHUB_REF_NAME already exists, skipped"
           else
-            gh release create "$GITHUB_REF_NAME" ./artifacts/* --repo "$GITHUB_REPOSITORY" --generate-notes --title "$GITHUB_REF_NAME"
+            gh release create "$GITHUB_REF_NAME" ./artifacts/* --repo "$GITHUB_REPOSITORY" --title "MarkdownRenderer $GITHUB_REF_NAME" --notes "$NOTES"
           fi
 
   publish-nuget-org:

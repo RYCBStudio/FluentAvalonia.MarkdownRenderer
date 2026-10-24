@@ -22,7 +22,9 @@ public static class MdStrings
 
     public static string AlertWarning => Lang switch { "cn" => "警告", "hant" => "警告", _ => "Warning" };
 
-    public static string AlertCaution => Lang switch { "cn" => "重要", "hant" => "重要", _ => "Important" };
+    public static string AlertImportant => Lang switch { "cn" => "重要", "hant" => "重要", _ => "Important" };
+
+    public static string AlertCaution => Lang switch { "cn" => "谨慎", "hant" => "謹慎", _ => "Caution" };
 
     public static string AlertInfo => Lang switch { "cn" => "信息", "hant" => "資訊", _ => "Information" };
 

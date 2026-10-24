@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using Avalonia;
@@ -36,6 +37,7 @@ internal static class Program
             CheckAlertThemeAndColors();
             CheckMarkdownRendersAlert();
             CheckLinkAccentResolved();
+            CheckLocalization();
         }
         catch (Exception ex)
         {
@@ -128,6 +130,45 @@ internal static class Program
         var accent = link?.GetValue(TextElement.ForegroundProperty) as ISolidColorBrush;
         Assert(accent != null, "链接强调色资源键已解析（MdAccentTextFillColorPrimaryBrush）",
             accent?.Color.ToString());
+    }
+
+    /// <summary>
+    ///     验证运行时本地化：英文 / 简体 / 繁体三套 Alert 标题，且 IMPORTANT 与 CAUTION 文案不重复
+    /// </summary>
+    private static void CheckLocalization()
+    {
+        var original = CultureInfo.CurrentUICulture;
+        try
+        {
+            CultureInfo.CurrentUICulture = new CultureInfo("en-US");
+            Check("en-US", "note", "Note");
+            Check("en-US", "tip", "Tip");
+            Check("en-US", "warning", "Warning");
+            Check("en-US", "important", "Important");
+            Check("en-US", "caution", "Caution");
+
+            CultureInfo.CurrentUICulture = new CultureInfo("zh-CN");
+            Check("zh-CN", "note", "注意");
+            Check("zh-CN", "warning", "警告");
+            Check("zh-CN", "important", "重要");
+            Check("zh-CN", "caution", "谨慎");
+
+            CultureInfo.CurrentUICulture = new CultureInfo("zh-TW");
+            Check("zh-TW", "note", "注意");
+            Check("zh-TW", "info", "資訊");
+            Check("zh-TW", "caution", "謹慎");
+            Check("zh-TW", "important", "重要");
+        }
+        finally
+        {
+            CultureInfo.CurrentUICulture = original;
+        }
+    }
+
+    private static void Check(string culture, string kind, string expected)
+    {
+        var actual = MdAlertBox.Create(kind, "x").Title;
+        Assert(actual == expected, $"{culture}: {kind.ToUpperInvariant()} 标题", actual);
     }
 
     private static void Pump(int totalMs = 300)
