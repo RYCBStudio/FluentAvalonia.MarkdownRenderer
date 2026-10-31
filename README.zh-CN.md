@@ -10,6 +10,7 @@
 |---|---|---|---|
 | [`FluentAvalonia.MarkdownRender`](https://www.nuget.org/packages/FluentAvalonia.MarkdownRender) | Avalonia + **FluentAvaloniaUI** | 应用已使用 FluentAvalonia，Alert 复用其 InfoBar | [README](FluentAvalonia.MarkdownRender/README.zh-CN.md) |
 | [`MarkdownRenderX.Avalonia`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia) | 仅 Avalonia（**无 FluentAvalonia**） | 通用 Avalonia 应用，Alert 为自绘实现 | [README](MarkdownRenderX.Avalonia/README.zh-CN.md) |
+| [`MarkdownRenderX.Avalonia.KaTeX`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.KaTeX) | 上述无依赖版 + **CSharpMath** | 显示数学公式（`$...$` / `$$...$$`），不使用 WebView | [README](MarkdownRenderX.Avalonia.KaTeX/README.zh-CN.md) |
 
 两者功能与外观对等，区别仅在于是否依赖 FluentAvalonia。版本号四段式：**前三位对齐所适配的 Avalonia 版本，末位为组件自身修订号**（如 `12.1.3.2` = 适配 Avalonia 12.1.3）。
 
@@ -18,6 +19,7 @@
 ```
 FluentAvalonia.MarkdownRender/    FluentAvalonia 版组件源码与包元数据
 MarkdownRenderX.Avalonia/         无 FluentAvalonia 依赖版（自绘 Alert、自带配色资源）
+MarkdownRenderX.Avalonia.KaTeX/   数学公式扩展（Markdig 数学节点 → CSharpMath 排版，内置字体）
 assets/                           包图标源文件（SVG）
 Directory.Packages.props          中央包版本管理（CPM）
 .github/workflows/publish.yml     发布流水线（打 tag 自动发双包）

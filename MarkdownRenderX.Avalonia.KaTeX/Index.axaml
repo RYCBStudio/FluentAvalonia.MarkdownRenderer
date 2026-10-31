@@ -1,0 +1,26 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cm="clr-namespace:CSharpMath.Avalonia;assembly=CSharpMath.Avalonia">
+
+    <!--
+        公式颜色：本扩展包自带主题字典，不依赖核心包的内部资源键，
+        这样即便核心包的配色方案被替换，公式颜色也不会解析失败。
+    -->
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="MdMathTextColor">#1C1F23</Color>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="MdMathTextColor">#F9F9F9</Color>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <Style Selector="cm|MathView">
+        <Setter Property="TextColor" Value="{DynamicResource MdMathTextColor}" />
+    </Style>
+
+</Styles>

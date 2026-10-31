@@ -18,6 +18,7 @@
     <PackageReference Include="SkiaSharp" Version="4.153.1" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="4.153.1" />
     <ProjectReference Include="../../MarkdownRenderX.Avalonia/MarkdownRenderX.Avalonia.csproj" />
+    <ProjectReference Include="../../MarkdownRenderX.Avalonia.KaTeX/MarkdownRenderX.Avalonia.KaTeX.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,7 @@ env:
   NUGET_SOURCE_NUGETORG: https://api.nuget.org/v3/index.json
   PROJECT_FAMR: FluentAvalonia.MarkdownRender/FluentAvalonia.MarkdownRender.csproj
   PROJECT_MRX: MarkdownRenderX.Avalonia/MarkdownRenderX.Avalonia.csproj
+  PROJECT_KATEX: MarkdownRenderX.Avalonia.KaTeX/MarkdownRenderX.Avalonia.KaTeX.csproj
 
 jobs:
   build:
@@ -31,11 +32,13 @@ jobs:
         run: |
           dotnet restore "$PROJECT_FAMR"
           dotnet restore "$PROJECT_MRX"
+          dotnet restore "$PROJECT_KATEX"
 
       - name: Build
         run: |
           dotnet build "$PROJECT_FAMR" -c Release --no-restore
           dotnet build "$PROJECT_MRX" -c Release --no-restore
+          dotnet build "$PROJECT_KATEX" -c Release --no-restore
 
       - name: Resolve package version
         id: ver
@@ -51,6 +54,7 @@ jobs:
         run: |
           dotnet pack "$PROJECT_FAMR" -c Release --no-build -o ./artifacts -p:Version="${{ steps.ver.outputs.version }}"
           dotnet pack "$PROJECT_MRX" -c Release --no-build -o ./artifacts -p:Version="${{ steps.ver.outputs.version }}"
+          dotnet pack "$PROJECT_KATEX" -c Release --no-build -o ./artifacts -p:Version="${{ steps.ver.outputs.version }}"
 
       - name: List artifacts
         run: ls -l ./artifacts

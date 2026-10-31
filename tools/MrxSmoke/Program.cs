@@ -13,6 +13,9 @@ using Avalonia.Themes.Fluent;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using MarkdownRenderX.Avalonia.Controls.MarkdownRender;
+using MarkdownRenderX.Avalonia.Extensibility;
+using MarkdownRenderX.Avalonia.KaTeX;
+using MathView = CSharpMath.Avalonia.MathView;
 
 namespace MrxSmoke;
 
@@ -38,6 +41,7 @@ internal static class Program
             CheckMarkdownRendersAlert();
             CheckLinkAccentResolved();
             CheckLocalization();
+            CheckKaTeX();
         }
         catch (Exception ex)
         {
@@ -171,6 +175,64 @@ internal static class Program
         Assert(actual == expected, $"{culture}: {kind.ToUpperInvariant()} 标题", actual);
     }
 
+    /// <summary>
+    ///     验证 KaTeX 扩展：注册后行内与块级公式都应渲染成 MathView，且排版无错误
+    /// </summary>
+    private static void CheckKaTeX()
+    {
+        KaTeXExtension.Register();
+        Assert(MarkdownRendererRegistry.Count >= 1, "KaTeX 渲染器已注册",
+            MarkdownRendererRegistry.Count.ToString());
+
+        const string markdown = """
+                                # 公式
+
+                                质能方程 $E=mc^2$ 是相对论的核心。
+
+                                $$\frac{1}{2}$$
+
+                                $$
+                                \sum_{i=1}^{n} i
+                                $$
+                                """;
+
+        var render = new MarkdownRender { Value = markdown };
+        var window = new Window { Width = 900, Height = 700, Content = render };
+        window.Show();
+        Pump(2500);
+
+        object greyValue = null;
+        var grey9 = Application.Current?.TryFindResource("Grey9", out greyValue) == true;
+        Console.WriteLine($"  [diag] Grey9 found={grey9} value={greyValue}");
+
+        var views = render.GetVisualDescendants().OfType<MathView>().ToList();
+        Assert(views.Count >= 3, "公式控件数量 >= 3", views.Count.ToString());
+        if (views.Count < 3)
+        {
+            return;
+        }
+
+        for (var i = 0; i < views.Count; i++)
+        {
+            Console.WriteLine($"  [diag] view{i}: latex='{views[i].LaTeX}' size={views[i].FontSize} color={views[i].TextColor} parent={views[i].Parent?.GetType().Name}");
+        }
+
+        Assert(views[0].LaTeX == "E=mc^2", "行内公式 LaTeX 提取", views[0].LaTeX);
+
+        var allOk = views.All(v => string.IsNullOrEmpty(v.ErrorMessage));
+        Assert(allOk, "全部公式无排版错误", string.Join(" | ", views.Select(v => v.ErrorMessage ?? "-")));
+
+        var blockViews = views.Where(v => v.Parent is not InlineUIContainer).ToList();
+        Assert(blockViews.Count >= 1, "存在块级（MathBlock）公式", blockViews.Count.ToString());
+        if (blockViews.Count > 0)
+        {
+            Assert(blockViews[0].FontSize > views[0].FontSize, "块级公式字号大于行内",
+                $"{blockViews[0].FontSize} > {views[0].FontSize}");
+        }
+
+        Assert(views[0].TextColor != default, "公式文字颜色已应用", views[0].TextColor.ToString());
+    }
+
     private static void Pump(int totalMs = 300)
     {
         var steps = Math.Max(1, totalMs / 50);
@@ -212,6 +274,10 @@ internal sealed class SmokeApp : Application
         var componentStyles = (Styles)AvaloniaXamlLoader.Load(
             new Uri("avares://MarkdownRenderX.Avalonia/Index.axaml"));
         Styles.Add(componentStyles);
+
+        var kaTeXStyles = (Styles)AvaloniaXamlLoader.Load(
+            new Uri("avares://MarkdownRenderX.Avalonia.KaTeX/Index.axaml"));
+        Styles.Add(kaTeXStyles);
         RequestedThemeVariant = ThemeVariant.Light;
     }
 }

@@ -39,4 +39,11 @@
     <PackageVersion Include="TextMateSharp" Version="2.0.4" />
     <PackageVersion Include="TextMateSharp.Grammars" Version="2.0.4" />
   </ItemGroup>
+    <!-- ===== 数学公式（KaTeX 扩展包） =====
+         目前唯一面向 Avalonia 12 的原生 LaTeX 排版库（Skia 绘制，非 WebView）；
+         尚无稳定版，1.0.0-pre.2 依赖 SkiaSharp 3.119.4（被本仓库的 4.153.1 满足）。 -->
+    <ItemGroup>
+        <PackageVersion Include="CSharpMath.Avalonia" Version="1.0.0-pre.2" />
+    </ItemGroup>
+
 </Project>

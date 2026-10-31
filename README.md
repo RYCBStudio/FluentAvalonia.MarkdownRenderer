@@ -10,6 +10,7 @@ Markdown rendering components for [Avalonia](https://github.com/AvaloniaUI/Avalo
 |---|---|---|---|
 | [`FluentAvalonia.MarkdownRender`](https://www.nuget.org/packages/FluentAvalonia.MarkdownRender) | Avalonia + **FluentAvaloniaUI** | Apps already using FluentAvalonia; alerts reuse its InfoBar | [README](FluentAvalonia.MarkdownRender/README.md) |
 | [`MarkdownRenderX.Avalonia`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia) | Avalonia only (**no FluentAvalonia**) | Any Avalonia app; alerts are drawn in-house | [README](MarkdownRenderX.Avalonia/README.md) |
+| [`MarkdownRenderX.Avalonia.KaTeX`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.KaTeX) | The dependency-free variant + **CSharpMath** | Rendering math (`$...$` / `$$...$$`) natively, no WebView | [README](MarkdownRenderX.Avalonia.KaTeX/README.md) |
 
 Both packages behave and look the same; the only difference is the FluentAvalonia dependency. Versions are four-part: **the first three parts match the Avalonia version targeted, the last part is the component revision** (e.g. `12.1.3.3` targets Avalonia 12.1.3).
 
@@ -18,6 +19,7 @@ Both packages behave and look the same; the only difference is the FluentAvaloni
 ```
 FluentAvalonia.MarkdownRender/    FluentAvalonia-based component (source + package metadata)
 MarkdownRenderX.Avalonia/         Dependency-free variant (in-house alerts, own color resources)
+MarkdownRenderX.Avalonia.KaTeX/   Math extension: Markdig math nodes -> CSharpMath layout (embedded font)
 assets/                           Package icon sources (SVG)
 Directory.Packages.props          Central package management (CPM), shared by both projects
 .github/workflows/publish.yml     Release pipeline (tag push publishes both packages)
