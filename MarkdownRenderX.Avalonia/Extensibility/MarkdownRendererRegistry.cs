@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Documents;
 using Markdig.Syntax;
 
 namespace MarkdownRenderX.Avalonia.Extensibility;
@@ -111,6 +112,55 @@ public static class MarkdownRendererRegistry
             catch
             {
                 // 同上：渲染失败时退回内置逻辑
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    ///     行内分派：先询问 <see cref="IMarkdownNodeRenderer.CreateInline" />（保持文本可选中），
+    ///     没有结果时再退回 <see cref="IMarkdownNodeRenderer.CreateControl" />。
+    ///     返回值可能是 <see cref="Inline" /> 或 <see cref="Control" />。
+    /// </summary>
+    internal static object? TryRenderInline(MarkdownObject node)
+    {
+        IMarkdownNodeRenderer[] snapshot;
+
+        lock (Gate)
+        {
+            if (Renderers.Count == 0)
+            {
+                return null;
+            }
+
+            snapshot = Renderers.ToArray();
+        }
+
+        foreach (var renderer in snapshot)
+        {
+            try
+            {
+                if (!renderer.CanRender(node))
+                {
+                    continue;
+                }
+
+                var inline = renderer.CreateInline(node);
+                if (inline != null)
+                {
+                    return inline;
+                }
+
+                var control = renderer.CreateControl(node);
+                if (control != null)
+                {
+                    return control;
+                }
+            }
+            catch
+            {
+                // 第三方渲染器异常不能影响整篇文档的渲染
             }
         }
 

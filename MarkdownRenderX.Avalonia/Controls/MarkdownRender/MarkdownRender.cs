@@ -847,8 +847,8 @@ public partial class MarkdownRender : ContentControl, INotifyPropertyChanged
 
     private List<object> ConvertInline(Markdig.Syntax.Inlines.Inline mdInline)
     {
-        // 扩展点：已注册的节点渲染器优先接管（返回的控件会作为 InlineUIContainer 插入段落）
-        if (MarkdownRendererRegistry.TryRender(mdInline) is { } customInline)
+        // 扩展点：优先返回 Inline（文本可选中可复制），其次 Control（作为 InlineUIContainer 插入段落）
+        if (MarkdownRendererRegistry.TryRenderInline(mdInline) is { } customInline)
         {
             return [customInline];
         }

@@ -15,6 +15,7 @@ using Avalonia.VisualTree;
 using MarkdownRenderX.Avalonia.Controls.MarkdownRender;
 using MarkdownRenderX.Avalonia.Extensibility;
 using MarkdownRenderX.Avalonia.KaTeX;
+using MarkdownRenderX.Avalonia.Emoji;
 using MathView = CSharpMath.Avalonia.MathView;
 
 namespace MrxSmoke;
@@ -42,6 +43,7 @@ internal static class Program
             CheckLinkAccentResolved();
             CheckLocalization();
             CheckKaTeX();
+            CheckEmoji();
         }
         catch (Exception ex)
         {
@@ -231,6 +233,62 @@ internal static class Program
         }
 
         Assert(views[0].TextColor != default, "公式文字颜色已应用", views[0].TextColor.ToString());
+    }
+
+    /// <summary>
+    ///     验证 Emoji 扩展：正文短码换成 Unicode（仍是可选中的 Run），代码块与未知短码原样保留
+    /// </summary>
+    private static void CheckEmoji()
+    {
+        EmojiExtension.Register();
+        Assert(EmojiExtension.ShortcodeCount > 1500, "短码表加载",
+            EmojiExtension.ShortcodeCount.ToString());
+
+        var body = RenderPlainText("Cheers :beer: and :tada: :+1:! Unknown :definitely_not_an_emoji_xyz: stays.");
+        Assert(body.Contains("🍺") && body.Contains("🎉") && body.Contains("👍"),
+            "正文短码替换为 emoji（Run，文本可选中）", body);
+        Assert(body.Contains(":definitely_not_an_emoji_xyz:"), "未知短码原样保留");
+
+        // 只渲染代码块：不得出现任何 emoji，且原文必须保留
+        const string codeOnly = """
+                                Inline `:beer:` and
+
+                                ```
+                                echo :beer:
+                                ```
+                                """;
+        var code = RenderPlainText(codeOnly);
+        Assert(!code.Contains("🍺"), "代码块内短码未被替换", code);
+        Assert(code.Contains(":beer:"), "代码块内短码原文保留");
+    }
+
+    /// <summary>渲染一段 Markdown，收集可视树里所有可见文本</summary>
+    private static string RenderPlainText(string markdown)
+    {
+        var render = new MarkdownRender { Value = markdown };
+        var window = new Window { Width = 900, Height = 700, Content = render };
+        window.Show();
+        Pump(1200);
+
+        var parts = new List<string>();
+        foreach (var v in render.GetVisualDescendants())
+        {
+            switch (v)
+            {
+                case SelectableTextBlock tb:
+                    parts.Add(tb.Text ?? string.Empty);
+                    parts.AddRange(tb.Inlines.OfType<Run>().Select(r => r.Text ?? string.Empty));
+                    break;
+                case TextBox box:
+                    parts.Add(box.Text ?? string.Empty);
+                    break;
+                case TextBlock block:
+                    parts.Add(block.Text ?? string.Empty);
+                    break;
+            }
+        }
+
+        return string.Join(" | ", parts);
     }
 
     private static void Pump(int totalMs = 300)

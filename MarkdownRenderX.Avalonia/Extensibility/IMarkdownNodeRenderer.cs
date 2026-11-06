@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Documents;
 using Markdig.Syntax;
 
 namespace MarkdownRenderX.Avalonia.Extensibility;
@@ -19,4 +20,12 @@ public interface IMarkdownNodeRenderer
     ///     创建对应的 Avalonia 控件；返回 null 表示放弃，交回内置渲染逻辑
     /// </summary>
     Control? CreateControl(MarkdownObject node);
+
+    /// <summary>
+    ///     创建行内文本元素（可选）。用于需要保持"文本可选中、可复制"的扩展，
+    ///     例如把 <c>:beer:</c> 替换成 emoji 字符。默认返回 null。
+    ///     仅在行内节点分派时调用，且优先于 <see cref="CreateControl" />；
+    ///     带默认实现，已有渲染器无需改动即可兼容。
+    /// </summary>
+    Inline? CreateInline(MarkdownObject node) => null;
 }

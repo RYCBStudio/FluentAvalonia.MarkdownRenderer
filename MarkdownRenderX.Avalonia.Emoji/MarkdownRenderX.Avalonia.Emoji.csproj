@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <TargetFrameworks>net10.0</TargetFrameworks>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+
+        <!--
+          版本规则（四段式）：major.minor.patch 对齐所适配的 Avalonia 版本（12.1.3），
+          第四段 revision 为本组件自身的修订号。
+          发布时以 git tag 为准：CI 会用 -p:Version=<tag 去掉 v 前缀> 覆盖此处默认值。
+        -->
+        <Version>12.1.3.5</Version>
+        <AssemblyVersion>12.1.3.5</AssemblyVersion>
+        <FileVersion>12.1.3.5</FileVersion>
+
+        <PackageId>MarkdownRenderX.Avalonia.Emoji</PackageId>
+        <Authors>RYCBStudio</Authors>
+        <Company>RYCBStudio</Company>
+        <Product>MarkdownRenderX.Avalonia.Emoji</Product>
+        <Title>GitHub Emoji for MarkdownRenderX</Title>
+        <Description>GitHub / GitMoji shortcode support for MarkdownRenderX.Avalonia. Turns :beer:, :tada:, :+1: and ~1900 other shortcodes into native Unicode emoji - selectable text, no images, no WebView.</Description>
+        <PackageProjectUrl>https://github.com/RYCBStudio/FluentAvalonia.MarkdownRenderer</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/RYCBStudio/FluentAvalonia.MarkdownRenderer</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <PackageTags>Avalonia;Markdown;Emoji;Gemoji;Gitmoji;Shortcode;MarkdownRenderX</PackageTags>
+        <PackageReleaseNotes>Emoji shortcode extension for MarkdownRenderX.Avalonia: registers an inline renderer that maps GitHub (gemoji) and GitMoji shortcodes to Unicode characters, with no extra dependencies or style files.</PackageReleaseNotes>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Copyright>Copyright (c) 2026 RYCBStudio</Copyright>
+
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <DebugType>portable</DebugType>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="icon.png" Pack="true" PackagePath="\" Visible="false" />
+        <None Include="README.md" Pack="true" PackagePath="\" Visible="false" />
+        <None Include="THIRD_PARTY_NOTICES.md" Pack="true" PackagePath="\" Visible="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- 精简后的短码表（约 41 KB），运行时懒加载；用源生成 JSON 上下文以兼容 AOT -->
+        <EmbeddedResource Include="Resources/emoji-map.json"
+                          LogicalName="MarkdownRenderX.Avalonia.Emoji.Resources.emoji-map.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- 版本统一由仓库根目录 Directory.Packages.props 中央管理 -->
+        <PackageReference Include="Avalonia" />
+        <ProjectReference Include="../MarkdownRenderX.Avalonia/MarkdownRenderX.Avalonia.csproj" />
+    </ItemGroup>
+
+</Project>
