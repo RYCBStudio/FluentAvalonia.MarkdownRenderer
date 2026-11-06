@@ -11,9 +11,9 @@
           第四段 revision 为本组件自身的修订号。
           发布时以 git tag 为准：CI 会用 -p:Version=<tag 去掉 v 前缀> 覆盖此处默认值。
         -->
-        <Version>12.1.3.5</Version>
-        <AssemblyVersion>12.1.3.5</AssemblyVersion>
-        <FileVersion>12.1.3.5</FileVersion>
+        <Version>12.1.3.6</Version>
+        <AssemblyVersion>12.1.3.6</AssemblyVersion>
+        <FileVersion>12.1.3.6</FileVersion>
 
         <PackageId>FluentAvalonia.MarkdownRender</PackageId>
         <Authors>RYCBStudio</Authors>
@@ -60,6 +60,16 @@
         <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" />
         <PackageReference Include="TextMateSharp" />
         <PackageReference Include="TextMateSharp.Grammars" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <!--
+            FAMR 是 MarkdownRenderX.Avalonia 的副包：
+            复用其扩展点（IMarkdownNodeRenderer）与静态注册表 MarkdownRendererRegistry，
+            因此 KaTeX / Emoji 等扩展注册一次即可同时作用于两个渲染器。
+        -->
+        <ProjectReference Include="../MarkdownRenderX.Avalonia/MarkdownRenderX.Avalonia.csproj" />
     </ItemGroup>
 
 </Project>

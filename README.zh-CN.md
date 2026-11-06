@@ -8,12 +8,16 @@
 
 | 包 | 依赖 | 适用场景 | 文档 |
 |---|---|---|---|
-| [`FluentAvalonia.MarkdownRender`](https://www.nuget.org/packages/FluentAvalonia.MarkdownRender) | Avalonia + **FluentAvaloniaUI** | 应用已使用 FluentAvalonia，Alert 复用其 InfoBar | [README](FluentAvalonia.MarkdownRender/README.zh-CN.md) |
+| [`FluentAvalonia.MarkdownRender`](https://www.nuget.org/packages/FluentAvalonia.MarkdownRender) | `MarkdownRenderX.Avalonia` + **FluentAvaloniaUI** | 应用已使用 FluentAvalonia，Alert 复用其 InfoBar（副包） | [README](FluentAvalonia.MarkdownRender/README.zh-CN.md) |
 | [`MarkdownRenderX.Avalonia`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia) | 仅 Avalonia（**无 FluentAvalonia**） | 通用 Avalonia 应用，Alert 为自绘实现 | [README](MarkdownRenderX.Avalonia/README.zh-CN.md) |
 | [`MarkdownRenderX.Avalonia.KaTeX`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.KaTeX) | 上述无依赖版 + **CSharpMath** | 显示数学公式（`$...$` / `$$...$$`），不使用 WebView | [README](MarkdownRenderX.Avalonia.KaTeX/README.zh-CN.md) |
 | [`MarkdownRenderX.Avalonia.Emoji`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.Emoji) | 上述无依赖版 + **emoji 短码表** | 把 `:beer:` / `:+1:` 显示为原生 Unicode emoji | [README](MarkdownRenderX.Avalonia.Emoji/README.zh-CN.md) |
 
-两者功能与外观对等，区别仅在于是否依赖 FluentAvalonia。版本号四段式：**前三位对齐所适配的 Avalonia 版本，末位为组件自身修订号**（如 `12.1.3.2` = 适配 Avalonia 12.1.3）。
+两者功能与外观对等，区别仅在于是否依赖 FluentAvalonia。
+
+自 12.1.3.6 起，`FluentAvalonia.MarkdownRender` 是**基于 `MarkdownRenderX.Avalonia` 的副包**。两个渲染器查询同一个扩展注册表，因此 KaTeX 与 Emoji 扩展只需注册一次，对两版同时生效，无需重复注册或适配包。
+
+版本号四段式：**前三位对齐所适配的 Avalonia 版本，末位为组件自身修订号**（如 `12.1.3.2` = 适配 Avalonia 12.1.3）。
 
 ## 仓库结构
 

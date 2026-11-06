@@ -47,7 +47,7 @@ $$
 $$
 ```
 
-That's it — existing `MarkdownRender` instances pick it up automatically.
+That's it — existing `MarkdownRender` instances pick it up automatically. Since 12.1.3.6 this also works with the companion `FluentAvalonia.MarkdownRender` package: both renderers share one extension registry, so a single `Register()` call covers either (or both).
 
 ## Syntax notes
 

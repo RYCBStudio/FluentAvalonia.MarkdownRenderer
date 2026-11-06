@@ -17,6 +17,7 @@ using MarkdownRenderX.Avalonia.Extensibility;
 using MarkdownRenderX.Avalonia.KaTeX;
 using MarkdownRenderX.Avalonia.Emoji;
 using MathView = CSharpMath.Avalonia.MathView;
+using FamrMarkdownRender = FluentAvalonia.MarkdownRender.Controls.MarkdownRender.MarkdownRender;
 
 namespace MrxSmoke;
 
@@ -44,6 +45,7 @@ internal static class Program
             CheckLocalization();
             CheckKaTeX();
             CheckEmoji();
+            CheckFamrExtensions();
         }
         catch (Exception ex)
         {
@@ -269,9 +271,13 @@ internal static class Program
         var window = new Window { Width = 900, Height = 700, Content = render };
         window.Show();
         Pump(1200);
+        return CollectVisibleText(render);
+    }
 
+    private static string CollectVisibleText(Control root)
+    {
         var parts = new List<string>();
-        foreach (var v in render.GetVisualDescendants())
+        foreach (var v in root.GetVisualDescendants())
         {
             switch (v)
             {
@@ -289,6 +295,23 @@ internal static class Program
         }
 
         return string.Join(" | ", parts);
+    }
+
+    /// <summary>
+    ///     FAMR 作为 MRX 副包：扩展只注册一次，FAMR 控件也应能渲染公式与 emoji
+    /// </summary>
+    private static void CheckFamrExtensions()
+    {
+        var famr = new FamrMarkdownRender { Value = "Beer :beer: and $E=mc^2$" };
+        var window = new Window { Width = 900, Height = 400, Content = famr };
+        window.Show();
+        Pump(1500);
+
+        var mathViews = famr.GetVisualDescendants().OfType<MathView>().ToList();
+        Assert(mathViews.Count == 1, "FAMR 公式扩展生效", mathViews.Count.ToString());
+
+        var text = CollectVisibleText(famr);
+        Assert(text.Contains("🍺"), "FAMR emoji 扩展生效", text);
     }
 
     private static void Pump(int totalMs = 300)

@@ -20,7 +20,7 @@ using MarkdownRenderX.Avalonia.Emoji;
 EmojiExtension.Register();
 ```
 
-That's all — no `StyleInclude`, no extra style file. All `MarkdownRender` instances pick it up:
+That's all — no `StyleInclude`, no extra style file. All `MarkdownRender` instances pick it up. Since 12.1.3.6 the companion `FluentAvalonia.MarkdownRender` package shares the same extension registry, so one `Register()` call covers both renderers:
 
 ```markdown
 Ship it! :beer: :tada: :+1:

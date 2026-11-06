@@ -69,7 +69,7 @@ public static class MarkdownRendererRegistry
     /// <summary>
     ///     依次询问已注册的渲染器，第一个返回非 null 控件者胜出
     /// </summary>
-    internal static Control? TryRender(MarkdownObject node)
+    public static Control? TryRender(MarkdownObject node)
     {
         IMarkdownNodeRenderer[] snapshot;
 
@@ -123,7 +123,7 @@ public static class MarkdownRendererRegistry
     ///     没有结果时再退回 <see cref="IMarkdownNodeRenderer.CreateControl" />。
     ///     返回值可能是 <see cref="Inline" /> 或 <see cref="Control" />。
     /// </summary>
-    internal static object? TryRenderInline(MarkdownObject node)
+    public static object? TryRenderInline(MarkdownObject node)
     {
         IMarkdownNodeRenderer[] snapshot;
 

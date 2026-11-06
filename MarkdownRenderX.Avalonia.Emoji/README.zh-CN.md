@@ -20,7 +20,7 @@ using MarkdownRenderX.Avalonia.Emoji;
 EmojiExtension.Register();
 ```
 
-不需要 `StyleInclude`，也没有额外样式文件。所有 `MarkdownRender` 实例自动生效：
+不需要 `StyleInclude`，也没有额外样式文件。所有 `MarkdownRender` 实例自动生效。自 12.1.3.6 起，副包 `FluentAvalonia.MarkdownRender` 共用同一个扩展注册表，调用一次 `Register()` 即对两个渲染器生效：
 
 ```markdown
 Ship it! :beer: :tada: :+1:

@@ -20,6 +20,8 @@ using FluentAvalonia.MarkdownRender.i18n;
 using TextMateSharp.Grammars;
 using Inline = Avalonia.Controls.Documents.Inline;
 
+using MarkdownRenderX.Avalonia.Extensibility;
+
 namespace FluentAvalonia.MarkdownRender.Controls.MarkdownRender;
 
 public partial class MarkdownRender : ContentControl, INotifyPropertyChanged
@@ -362,6 +364,12 @@ public partial class MarkdownRender : ContentControl, INotifyPropertyChanged
 
     private Control? ConvertBlock(Block block)
     {
+        // 扩展点：与副包基类共用 MRX 的静态注册表
+        if (MarkdownRendererRegistry.TryRender(block) is { } customBlock)
+        {
+            return customBlock;
+        }
+
         return block switch
         {
             ParagraphBlock paragraph => CreateParagraph(paragraph),
@@ -839,6 +847,12 @@ public partial class MarkdownRender : ContentControl, INotifyPropertyChanged
 
     private List<object> ConvertInline(Markdig.Syntax.Inlines.Inline mdInline)
     {
+        // 扩展点：优先 Inline（文本可选中），其次 Control；与 MRX 共用同一注册表
+        if (MarkdownRendererRegistry.TryRenderInline(mdInline) is { } customInline)
+        {
+            return [customInline];
+        }
+
         switch (mdInline)
         {
             case EmphasisInline emphasisInline:

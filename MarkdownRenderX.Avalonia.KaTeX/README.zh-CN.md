@@ -47,7 +47,7 @@ $$
 $$
 ```
 
-已有的 `MarkdownRender` 实例会自动生效，无需改动控件代码。
+已有的 `MarkdownRender` 实例会自动生效，无需改动控件代码。自 12.1.3.6 起，副包 `FluentAvalonia.MarkdownRender` 同样可用：两个渲染器共用同一个扩展注册表，调用一次 `Register()` 即对两者（或其中之一）生效。
 
 ## 语法与渲染对照
 

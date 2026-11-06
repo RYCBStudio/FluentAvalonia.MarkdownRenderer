@@ -9,6 +9,10 @@ A Markdown rendering control for [Avalonia](https://github.com/AvaloniaUI/Avalon
 
 This component was renamed from [AIDotNet/Markdown.AIRender](https://github.com/AIDotNet/Markdown.AIRender) (MIT) and further developed; GFM table support was added on top.
 
+## Package relationship
+
+Since 12.1.3.6 this is a **companion package built on [`MarkdownRenderX.Avalonia`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia)**: installing it also installs the core package. Both renderers query the same extension registry, so the [KaTeX](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.KaTeX) and [Emoji](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.Emoji) extensions work here as well — just call their `Register()` methods once at startup. Your existing XAML namespace, styles and `FAInfoBar`-based alerts are unchanged.
+
 ## Features
 
 - Standard Markdown: headings, paragraphs, lists, blockquotes, horizontal rules, bold/italic, inline code and links

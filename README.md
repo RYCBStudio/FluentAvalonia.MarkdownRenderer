@@ -8,12 +8,16 @@ Markdown rendering components for [Avalonia](https://github.com/AvaloniaUI/Avalo
 
 | Package | Dependencies | Best for | Docs |
 |---|---|---|---|
-| [`FluentAvalonia.MarkdownRender`](https://www.nuget.org/packages/FluentAvalonia.MarkdownRender) | Avalonia + **FluentAvaloniaUI** | Apps already using FluentAvalonia; alerts reuse its InfoBar | [README](FluentAvalonia.MarkdownRender/README.md) |
+| [`FluentAvalonia.MarkdownRender`](https://www.nuget.org/packages/FluentAvalonia.MarkdownRender) | `MarkdownRenderX.Avalonia` + **FluentAvaloniaUI** | Apps already using FluentAvalonia; alerts reuse its InfoBar (companion package) | [README](FluentAvalonia.MarkdownRender/README.md) |
 | [`MarkdownRenderX.Avalonia`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia) | Avalonia only (**no FluentAvalonia**) | Any Avalonia app; alerts are drawn in-house | [README](MarkdownRenderX.Avalonia/README.md) |
 | [`MarkdownRenderX.Avalonia.KaTeX`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.KaTeX) | The dependency-free variant + **CSharpMath** | Rendering math (`$...$` / `$$...$$`) natively, no WebView | [README](MarkdownRenderX.Avalonia.KaTeX/README.md) |
 | [`MarkdownRenderX.Avalonia.Emoji`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.Emoji) | The dependency-free variant + **emoji map** | `:beer:` / `:+1:` shortcodes as native Unicode emoji | [README](MarkdownRenderX.Avalonia.Emoji/README.md) |
 
-Both packages behave and look the same; the only difference is the FluentAvalonia dependency. Versions are four-part: **the first three parts match the Avalonia version targeted, the last part is the component revision** (e.g. `12.1.3.3` targets Avalonia 12.1.3).
+Both packages behave and look the same; the only difference is the FluentAvalonia dependency.
+
+Since 12.1.3.6, `FluentAvalonia.MarkdownRender` is a **companion package built on `MarkdownRenderX.Avalonia`**. Both renderers query the same extension registry, so the KaTeX and Emoji extensions work with either one after a single `Register()` call — no duplicate registration, no adapter package.
+
+Versions are four-part: **the first three parts match the Avalonia version targeted, the last part is the component revision** (e.g. `12.1.3.3` targets Avalonia 12.1.3).
 
 ## Repository layout
 

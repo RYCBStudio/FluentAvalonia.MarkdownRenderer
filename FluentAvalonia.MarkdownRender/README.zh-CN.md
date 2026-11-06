@@ -8,6 +8,10 @@
 
 本组件由 [AIDotNet/Markdown.AIRender](https://github.com/AIDotNet/Markdown.AIRender)（MIT）重命名并二次开发而来，新增了 GFM 表格渲染等能力。
 
+## 包之间的关系
+
+自 12.1.3.6 起，本包是**基于 [`MarkdownRenderX.Avalonia`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia) 的副包**：安装本包会同时安装核心包。两个渲染器查询同一个扩展注册表，因此 [KaTeX](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.KaTeX) 与 [Emoji](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.Emoji) 扩展在本包上同样可用——启动时各调用一次 `Register()` 即可。原有的 XAML 命名空间、样式与基于 `FAInfoBar` 的警告框均未改变。
+
 ## 特性
 
 - 标准 Markdown：标题、段落、列表、引用、分割线、粗斜体、行内代码、链接
