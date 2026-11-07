@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <TargetFrameworks>net10.0</TargetFrameworks>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+
+        <Version>12.1.3.7</Version>
+        <AssemblyVersion>12.1.3.7</AssemblyVersion>
+        <FileVersion>12.1.3.7</FileVersion>
+
+        <PackageId>MarkdownRenderX.Avalonia.Mermaid</PackageId>
+        <Authors>RYCBStudio</Authors>
+        <Company>RYCBStudio</Company>
+        <Product>MarkdownRenderX.Avalonia.Mermaid</Product>
+        <Title>Mermaid Diagrams for MarkdownRenderX.Avalonia</Title>
+        <Description>Renders ```mermaid fenced code blocks as native SVG diagrams in MarkdownRenderX.Avalonia. Powered by Mermaider (pure .NET) and Svg.Skia - no WebView, no browser, no JavaScript. Supports flowcharts, sequence diagrams, class diagrams, Gantt charts and more, with light and dark themes.</Description>
+        <PackageProjectUrl>https://github.com/RYCBStudio/FluentAvalonia.MarkdownRenderer</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/RYCBStudio/FluentAvalonia.MarkdownRenderer</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <PackageTags>Avalonia;Markdown;Mermaid;Diagram;Flowchart;SequenceDiagram;Gantt;SVG;MarkdownRenderX</PackageTags>
+        <PackageReleaseNotes>Initial release. Renders Mermaid fenced code blocks natively through Mermaider + Svg.Skia, with CSS variable flattening so Svg.Skia can display the generated SVG correctly.</PackageReleaseNotes>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Copyright>Copyright (c) 2026 RYCBStudio</Copyright>
+
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <DebugType>portable</DebugType>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="icon.png" Pack="true" PackagePath="\" Visible="false" />
+        <None Include="README.md" Pack="true" PackagePath="\" Visible="false" />
+        <None Include="THIRD_PARTY_NOTICES.md" Pack="true" PackagePath="\" Visible="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../MarkdownRenderX.Avalonia/MarkdownRenderX.Avalonia.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- 版本统一由仓库根目录 Directory.Packages.props 中央管理 -->
+        <PackageReference Include="Avalonia" />
+        <PackageReference Include="Svg.Controls.Skia.Avalonia" />
+        <PackageReference Include="Mermaider" />
+    </ItemGroup>
+
+</Project>

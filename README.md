@@ -12,6 +12,7 @@ Markdown rendering components for [Avalonia](https://github.com/AvaloniaUI/Avalo
 | [`MarkdownRenderX.Avalonia`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia) | Avalonia only (**no FluentAvalonia**) | Any Avalonia app; alerts are drawn in-house | [README](MarkdownRenderX.Avalonia/README.md) |
 | [`MarkdownRenderX.Avalonia.KaTeX`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.KaTeX) | The dependency-free variant + **CSharpMath** | Rendering math (`$...$` / `$$...$$`) natively, no WebView | [README](MarkdownRenderX.Avalonia.KaTeX/README.md) |
 | [`MarkdownRenderX.Avalonia.Emoji`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.Emoji) | The dependency-free variant + **emoji map** | `:beer:` / `:+1:` shortcodes as native Unicode emoji | [README](MarkdownRenderX.Avalonia.Emoji/README.md) |
+| [`MarkdownRenderX.Avalonia.Mermaid`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.Mermaid) | The dependency-free variant + **Mermaider** | `mermaid` fenced blocks as native SVG diagrams, no WebView | [README](MarkdownRenderX.Avalonia.Mermaid/README.md) |
 
 Both packages behave and look the same; the only difference is the FluentAvalonia dependency.
 
@@ -26,10 +27,11 @@ FluentAvalonia.MarkdownRender/    FluentAvalonia-based component (source + packa
 MarkdownRenderX.Avalonia/         Dependency-free variant (in-house alerts, own color resources)
 MarkdownRenderX.Avalonia.KaTeX/   Math extension: Markdig math nodes -> CSharpMath layout (embedded font)
 MarkdownRenderX.Avalonia.Emoji/   Emoji extension: gemoji/GitMoji shortcodes -> Unicode (embedded 41 KB map)
+MarkdownRenderX.Avalonia.Mermaid/ Mermaid extension: fenced diagrams -> Mermaider SVG -> Svg.Skia
 assets/                           Package icon sources (SVG)
-Directory.Packages.props          Central package management (CPM), shared by both projects
-.github/workflows/publish.yml     Release pipeline (tag push publishes both packages)
-tools/MrxSmoke/                   Headless regression probe (alerts and theme resource keys)
+Directory.Packages.props          Central package management (CPM), shared by all projects
+.github/workflows/publish.yml     Release pipeline (tag push publishes all five packages)
+tools/MrxSmoke/                   Headless regression probe (alerts, localization, math, emoji, Mermaid)
 ```
 
 ## Build & pack

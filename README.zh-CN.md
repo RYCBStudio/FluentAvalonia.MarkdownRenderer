@@ -12,6 +12,7 @@
 | [`MarkdownRenderX.Avalonia`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia) | 仅 Avalonia（**无 FluentAvalonia**） | 通用 Avalonia 应用，Alert 为自绘实现 | [README](MarkdownRenderX.Avalonia/README.zh-CN.md) |
 | [`MarkdownRenderX.Avalonia.KaTeX`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.KaTeX) | 上述无依赖版 + **CSharpMath** | 显示数学公式（`$...$` / `$$...$$`），不使用 WebView | [README](MarkdownRenderX.Avalonia.KaTeX/README.zh-CN.md) |
 | [`MarkdownRenderX.Avalonia.Emoji`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.Emoji) | 上述无依赖版 + **emoji 短码表** | 把 `:beer:` / `:+1:` 显示为原生 Unicode emoji | [README](MarkdownRenderX.Avalonia.Emoji/README.zh-CN.md) |
+| [`MarkdownRenderX.Avalonia.Mermaid`](https://www.nuget.org/packages/MarkdownRenderX.Avalonia.Mermaid) | 上述无依赖版 + **Mermaider** | 把 `mermaid` 围栏块渲染为原生 SVG 图表，不使用 WebView | [README](MarkdownRenderX.Avalonia.Mermaid/README.zh-CN.md) |
 
 两者功能与外观对等，区别仅在于是否依赖 FluentAvalonia。
 
@@ -26,10 +27,11 @@ FluentAvalonia.MarkdownRender/    FluentAvalonia 版组件源码与包元数据
 MarkdownRenderX.Avalonia/         无 FluentAvalonia 依赖版（自绘 Alert、自带配色资源）
 MarkdownRenderX.Avalonia.KaTeX/   数学公式扩展（Markdig 数学节点 → CSharpMath 排版，内置字体）
 MarkdownRenderX.Avalonia.Emoji/   emoji 扩展（gemoji / GitMoji 短码 → Unicode，内置 41KB 短码表）
+MarkdownRenderX.Avalonia.Mermaid/ Mermaid 扩展（围栏图表 → Mermaider SVG → Svg.Skia）
 assets/                           包图标源文件（SVG）
 Directory.Packages.props          中央包版本管理（CPM）
-.github/workflows/publish.yml     发布流水线（打 tag 自动发双包）
-tools/MrxSmoke/                   无头回归探针（自绘 Alert 与主题资源键）
+.github/workflows/publish.yml     发布流水线（打 tag 自动发全部五个包）
+tools/MrxSmoke/                   无头回归探针（Alert / 本地化 / 公式 / emoji / Mermaid）
 ```
 
 ## 构建与打包

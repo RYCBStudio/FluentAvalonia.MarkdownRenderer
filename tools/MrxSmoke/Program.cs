@@ -9,6 +9,7 @@ using Avalonia.Headless;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Styling;
+using Avalonia.Svg.Skia;
 using Avalonia.Themes.Fluent;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
@@ -16,8 +17,10 @@ using MarkdownRenderX.Avalonia.Controls.MarkdownRender;
 using MarkdownRenderX.Avalonia.Extensibility;
 using MarkdownRenderX.Avalonia.KaTeX;
 using MarkdownRenderX.Avalonia.Emoji;
+using MarkdownRenderX.Avalonia.Mermaid;
 using MathView = CSharpMath.Avalonia.MathView;
 using FamrMarkdownRender = FluentAvalonia.MarkdownRender.Controls.MarkdownRender.MarkdownRender;
+using MermaidRenderOptions = Mermaider.Models.RenderOptions;
 
 namespace MrxSmoke;
 
@@ -46,6 +49,7 @@ internal static class Program
             CheckKaTeX();
             CheckEmoji();
             CheckFamrExtensions();
+            CheckMermaid();
         }
         catch (Exception ex)
         {
@@ -312,6 +316,62 @@ internal static class Program
 
         var text = CollectVisibleText(famr);
         Assert(text.Contains("🍺"), "FAMR emoji 扩展生效", text);
+    }
+
+    /// <summary>
+    ///     Mermaid 扩展：```mermaid 围栏块渲染为 SvgImage；
+    ///     CSS 变量 / color-mix 必须完全展开，其他语言的围栏块不受影响。
+    /// </summary>
+    private static void CheckMermaid()
+    {
+        MermaidExtension.Register();
+
+        const string markdown = """
+                                # 图表
+
+                                ```mermaid
+                                flowchart LR
+                                    A[开始] --> B{判断}
+                                    B -- 是 --> C[完成]
+                                ```
+
+                                ```csharp
+                                var x = 1;
+                                ```
+                                """;
+
+        var render = new MarkdownRender { Value = markdown };
+        var window = new Window { Width = 900, Height = 700, Content = render };
+        window.Show();
+        Pump(1800);
+
+        var images = render.GetVisualDescendants().OfType<Image>()
+            .Where(i => i.Source is SvgImage).ToList();
+        Assert(images.Count == 1, "mermaid 围栏块渲染为 SvgImage", images.Count.ToString());
+        Assert(MermaidExtension.Instance.LastError == null, "Mermaid 渲染无异常",
+            MermaidExtension.Instance.LastError ?? "-");
+        Assert((images.FirstOrDefault()?.Source as SvgImage)?.Source != null, "SvgSource 已加载");
+
+        var text = CollectVisibleText(render);
+        Assert(text.Contains("csharp"), "普通围栏块仍显示语言标签", text);
+
+        var plain = new MarkdownRender { Value = "```csharp\nvar x = 1;\n```" };
+        var plainWindow = new Window { Width = 900, Height = 400, Content = plain };
+        plainWindow.Show();
+        Pump(1200);
+        var plainSvg = plain.GetVisualDescendants().OfType<Image>().Count(i => i.Source is SvgImage);
+        Assert(plainSvg == 0, "普通围栏代码块未被 Mermaid 接管", plainSvg.ToString());
+
+        // 直接验证 CSS 扁平化器（Mermaider 原生输出带大量 var()/color-mix()）
+        var raw = Mermaider.MermaidRenderer.RenderSvg(
+            "flowchart LR\n  A[Start] --> B[End]", new MermaidRenderOptions());
+        Assert(raw.Contains("var(--") && raw.Contains("color-mix("),
+            "Mermaider 原生 SVG 含 CSS 变量");
+        var flat = SvgCssFlattener.Flatten(raw);
+        Assert(!flat.Contains("var(") && !flat.Contains("color-mix("),
+            "CSS 变量与 color-mix 已全部展开");
+        Assert(!flat.Contains("<style"), "不可解析的 style 块已移除");
+        Assert(flat.Contains("stroke=\"#"), "描边颜色已展开为十六进制");
     }
 
     private static void Pump(int totalMs = 300)

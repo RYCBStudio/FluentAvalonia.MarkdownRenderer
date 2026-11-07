@@ -20,6 +20,7 @@
     <ProjectReference Include="../../MarkdownRenderX.Avalonia/MarkdownRenderX.Avalonia.csproj" />
     <ProjectReference Include="../../MarkdownRenderX.Avalonia.KaTeX/MarkdownRenderX.Avalonia.KaTeX.csproj" />
     <ProjectReference Include="../../MarkdownRenderX.Avalonia.Emoji/MarkdownRenderX.Avalonia.Emoji.csproj" />
+    <ProjectReference Include="../../MarkdownRenderX.Avalonia.Mermaid/MarkdownRenderX.Avalonia.Mermaid.csproj" />
     <ProjectReference Include="../../FluentAvalonia.MarkdownRender/FluentAvalonia.MarkdownRender.csproj" />
   </ItemGroup>
 

@@ -45,5 +45,12 @@
     <ItemGroup>
         <PackageVersion Include="CSharpMath.Avalonia" Version="1.0.0-pre.2" />
     </ItemGroup>
+    <!-- ===== Mermaid 图表（Mermaid 扩展包）=====
+         纯 .NET 实现，输出 SVG，不依赖浏览器 / DOM / WebView；
+         布局由传递依赖 Sugiyama 完成。 -->
+    <ItemGroup>
+        <PackageVersion Include="Mermaider" Version="0.15.1" />
+    </ItemGroup>
+
 
 </Project>
