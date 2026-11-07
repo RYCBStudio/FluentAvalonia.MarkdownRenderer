@@ -915,15 +915,7 @@ public partial class MarkdownRender : ContentControl, INotifyPropertyChanged
                 else
                 {
                     var spanNew = new Span { Inlines = { inline } };
-                    if (emphasis.DelimiterCount == 2)
-                    {
-                        spanNew.FontWeight = FontWeight.Bold;
-                    }
-                    else if (emphasis.DelimiterCount == 1)
-                    {
-                        spanNew.FontStyle = FontStyle.Italic;
-                    }
-
+                    ApplyEmphasisStyle(spanNew, emphasis);
                     results.Add(spanNew);
                 }
             }
@@ -934,6 +926,47 @@ public partial class MarkdownRender : ContentControl, INotifyPropertyChanged
         }
 
         return results;
+    }
+
+    /// <summary>
+    ///     UseAdvancedExtensions 把粗体/斜体与下标(~)、上标(^)、高亮(==)、删除线(~~)、
+    ///     插入(++) 统一解析为 EmphasisInline，必须按 DelimiterChar 区分：
+    ///     否则 H~2~O 会被错渲染成斜体、==key== 成粗体。
+    /// </summary>
+    private static void ApplyEmphasisStyle(Span span, EmphasisInline emphasis)
+    {
+        switch (emphasis.DelimiterChar)
+        {
+            case '~' when emphasis.DelimiterCount == 1:
+                span.BaselineAlignment = BaselineAlignment.Subscript;
+                break;
+            case '^':
+                span.BaselineAlignment = BaselineAlignment.Superscript;
+                break;
+            case '=':
+            {
+                var dark = Application.Current?.ActualThemeVariant == ThemeVariant.Dark;
+                span.Background = new SolidColorBrush(Color.Parse(dark ? "#665C15" : "#FFF2A8"));
+                break;
+            }
+            case '~':
+                span.TextDecorations = TextDecorations.Strikethrough;
+                break;
+            case '+':
+                span.TextDecorations = TextDecorations.Underline;
+                break;
+            default:
+                if (emphasis.DelimiterCount == 2)
+                {
+                    span.FontWeight = FontWeight.Bold;
+                }
+                else if (emphasis.DelimiterCount == 1)
+                {
+                    span.FontStyle = FontStyle.Italic;
+                }
+
+                break;
+        }
     }
 
     private object CreateCodeInline(CodeInline codeInline)

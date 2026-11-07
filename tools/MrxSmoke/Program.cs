@@ -50,6 +50,7 @@ internal static class Program
             CheckEmoji();
             CheckFamrExtensions();
             CheckMermaid();
+            CheckExtendedEmphasis();
         }
         catch (Exception ex)
         {
@@ -372,6 +373,50 @@ internal static class Program
             "CSS 变量与 color-mix 已全部展开");
         Assert(!flat.Contains("<style"), "不可解析的 style 块已移除");
         Assert(flat.Contains("stroke=\"#"), "描边颜色已展开为十六进制");
+    }
+
+    /// <summary>
+    ///     Markdig 扩展语法：下标 H~2~O、上标 X^2^、高亮 ==key==、删除线、插入线，
+    ///     且原有粗体/斜体不回退；FAMR 副本必须表现一致。
+    /// </summary>
+    private static void CheckExtendedEmphasis()
+    {
+        const string markdown = "H~2~O and X^2^ and ==key== and ~~gone~~ and ++in++ and **bold** and *italic*";
+
+        AssertEmphasis(new MarkdownRender { Value = markdown }, "MRX");
+        AssertEmphasis(new FamrMarkdownRender { Value = markdown }, "FAMR");
+    }
+
+    private static void AssertEmphasis(Control render, string label)
+    {
+        var window = new Window { Width = 1000, Height = 400, Content = render };
+        window.Show();
+        Pump(1200);
+
+        var spans = render.GetVisualDescendants().OfType<SelectableTextBlock>()
+            .SelectMany(tb => tb.Inlines.OfType<Span>()).ToList();
+        Assert(spans.Count >= 7, $"{label}: 扩展语法解析出 Span", spans.Count.ToString());
+
+        Assert(spans.Any(s => s.BaselineAlignment == BaselineAlignment.Subscript),
+            $"{label}: H~2~O 渲染为下标");
+        Assert(spans.Any(s => s.BaselineAlignment == BaselineAlignment.Superscript),
+            $"{label}: X^2^ 渲染为上标");
+
+        var mark = spans.FirstOrDefault(s => s.Background is ISolidColorBrush);
+        Assert(mark != null, $"{label}: ==key== 渲染为高亮背景");
+        if (!label.StartsWith("FAMR"))
+        {
+            Assert((mark?.Background as ISolidColorBrush)?.Color == Color.Parse("#FFF2A8"),
+                "浅色主题高亮色 = #FFF2A8");
+        }
+
+        var locations = spans.Where(s => s.TextDecorations is { Count: > 0 })
+            .Select(s => s.TextDecorations![0].Location).ToList();
+        Assert(locations.Contains(TextDecorationLocation.Strikethrough), $"{label}: ~~ 删除线");
+        Assert(locations.Contains(TextDecorationLocation.Underline), $"{label}: ++ 插入线");
+
+        Assert(spans.Any(s => s.FontWeight == FontWeight.Bold), $"{label}: **粗体**未回退");
+        Assert(spans.Any(s => s.FontStyle == FontStyle.Italic), $"{label}: *斜体*未回退");
     }
 
     private static void Pump(int totalMs = 300)

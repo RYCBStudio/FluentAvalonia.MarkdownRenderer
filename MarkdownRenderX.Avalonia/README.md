@@ -20,6 +20,25 @@ A Markdown rendering control for [Avalonia](https://github.com/AvaloniaUI/Avalon
 - 5 built-in color themes: Default, OrangeHeart, Inkiness, ColorfulPurple, TechnologyBlue
 - Built-in lightweight localization (English, Simplified Chinese, Traditional Chinese) driven by `CurrentUICulture`
 
+## Extended inline syntax
+
+The core pipeline (`UseAdvancedExtensions`) parses these Markdig emphasis extras.
+Since 12.1.3.8 they are rendered correctly instead of being mistaken for italic/bold:
+
+| Syntax | Rendered as |
+|---|---|
+| `H~2~O` | subscript |
+| `X^2^` | superscript |
+| `==key==` | highlighted background |
+| `~~gone~~` | strikethrough |
+| `++added++` | underline (insertion) |
+| `**bold**` / `*italic*` | unchanged |
+
+The highlight colour follows the app theme (`#FFF2A8` light / `#665C15` dark).
+**Behaviour change:** up to 12.1.3.7, `~...~` rendered as italic and `==...==`
+as bold. Math (`$...$`) still requires the KaTeX extension, diagrams the
+Mermaid extension.
+
 ## Versioning
 
 The version is four-part: **the first three parts match the Avalonia version it targets, the last part is the component's own revision**.

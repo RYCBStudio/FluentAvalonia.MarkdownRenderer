@@ -34,6 +34,13 @@ Directory.Packages.props          中央包版本管理（CPM）
 tools/MrxSmoke/                   无头回归探针（Alert / 本地化 / 公式 / emoji / Mermaid）
 ```
 
+## 安装时提示
+
+每个包的根目录都带一个 `readme.txt`。安装包时 Visual Studio 会自动打开它
+（与 CsWin32 同一机制），因此扩展包必须调用的 `Register()` 不用翻 nuget.org
+就能看到。`README.md` 仍是 NuGet 页面展示的说明（`PackageReadmeFile`），
+两者互不冲突。注意只有直接安装的包才会弹窗，传递依赖不会。
+
 ## 构建与打包
 
 ```bash

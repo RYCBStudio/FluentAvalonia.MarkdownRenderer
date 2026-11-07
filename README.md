@@ -34,6 +34,15 @@ Directory.Packages.props          Central package management (CPM), shared by al
 tools/MrxSmoke/                   Headless regression probe (alerts, localization, math, emoji, Mermaid)
 ```
 
+## Install-time readme
+
+Every package ships a `readme.txt` in its root. Visual Studio opens it automatically
+when the package is installed - the same mechanism CsWin32 uses - so the mandatory
+`Register()` call for extensions is visible without visiting nuget.org.
+`README.md` remains the NuGet gallery readme (`PackageReadmeFile`); the two files
+do not conflict. Only a directly installed package triggers the popup, not a
+transitive dependency.
+
 ## Build & pack
 
 ```bash
